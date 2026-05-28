@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0b1220">
+<meta name="color-scheme" content="dark">
+<title>LET'S ENCRYPTE YOUR REPO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-start:#0b1220;        /* deep navy */
+    --bg-end:#251148;          /* dark purple */
+    --primary:#7c3aed;         /* purple */
+    --primary-2:#4f46e5;       /* indigo */
+    --accent:#0ea5e9;          /* sky */
+    --text-primary:rgba(255,255,255,0.96);
+    --text-secondary:rgba(255,255,255,0.72);
+    --surface:rgba(255,255,255,0.07);
+    --surface-2:rgba(255,255,255,0.04);
+    --border:rgba(255,255,255,0.18);
+    --ring:rgba(124,58,237,0.45);
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    position:relative;
+    min-height:100vh;
+    display:grid;
+    place-items:center;
+    padding:24px;
+    color:var(--text-primary);
+    background:linear-gradient(135deg,var(--bg-start) 0%,var(--bg-end) 100%);
+    overflow:hidden;
+    font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji","Segoe UI Emoji";
+  }
+
+  /* Decorative gradient orbs */
+  body::before, body::after{
+    content:"";
+    position:absolute;
+    width:60vmax; height:60vmax;
+    border-radius:50%;
+    filter:blur(60px);
+    pointer-events:none;
+    z-index:0;
+  }
+  body::before{left:-20vmax;top:-20vmax;background:radial-gradient(circle at 30% 30%, rgba(56,189,248,0.18), transparent 60%)}
+  body::after{right:-18vmax;bottom:-22vmax;background:radial-gradient(circle at 70% 70%, rgba(139,92,246,0.22), transparent 58%)}
+
+  .container{
+    position:relative;
+    z-index:1;
+    width:min(760px,100%);
+    padding:32px 32px 28px;
+    border-radius:20px;
+    background:linear-gradient(180deg, var(--surface) 0%, var(--surface-2) 100%);
+    border:1px solid var(--border);
+    box-shadow:
+      0 20px 60px rgba(0,0,0,0.45),
+      inset 0 1px 0 rgba(255,255,255,0.06);
+    backdrop-filter: blur(16px) saturate(140%);
+    -webkit-backdrop-filter: blur(16px) saturate(140%);
+  }
+
+  .container::before{
+    content:"";
+    position:absolute; inset:0; border-radius:inherit; padding:1px;
+    background:linear-gradient(180deg, rgba(255,255,255,0.35), rgba(255,255,255,0.06));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude;
+    pointer-events:none;
+  }
+
+  h1{
+    font-size:clamp(1.6rem,2vw+1rem,2.4rem);
+    font-weight:800;
+    letter-spacing:-0.02em;
+    margin-bottom:6px;
+    background:linear-gradient(90deg,#a5b4fc 0%,#f0abfc 100%);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .subtitle{color:var(--text-secondary); margin-bottom:20px}
+
+  form{display:block}
+  .form-grid{display:grid; gap:16px}
+  .field{display:flex; flex-direction:column}
+  label{color:var(--text-secondary); font-weight:600; margin-bottom:8px}
+  .hint{color:var(--text-secondary); font-size:0.85rem; margin-top:6px}
+
+  .input{
+    appearance:none;
+    width:100%;
+    padding:14px 14px;
+    border-radius:12px;
+    border:1px solid rgba(255,255,255,0.14);
+    background:linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.04));
+    color:var(--text-primary);
+    transition:border-color .2s ease, box-shadow .2s ease, transform .12s ease;
+  }
+  .input::placeholder{color:rgba(255,255,255,0.45)}
+  .input:hover{border-color:rgba(255,255,255,0.28)}
+  .input:focus-visible{
+    outline:none;
+    border-color:rgba(124,58,237,0.55);
+    box-shadow:0 0 0 3px rgba(124,58,237,0.25), 0 1px 0 rgba(255,255,255,0.06) inset;
+  }
+
+  .btn-primary{
+    appearance:none; cursor:pointer; user-select:none;
+    width:100%;
+    margin-top:6px;
+    padding:14px 18px;
+    border-radius:12px;
+    border:1px solid rgba(255,255,255,0.14);
+    color:#fff;
+    font-weight:700; letter-spacing:.01em;
+    background:linear-gradient(90deg,var(--primary-2),var(--primary),var(--accent));
+    background-size:200% 100%;
+    box-shadow:0 14px 34px rgba(124,58,237,0.45), inset 0 1px 0 rgba(255,255,255,0.15);
+    transition:transform .12s ease, box-shadow .25s ease, background-position .35s ease, filter .2s ease;
+  }
+  .btn-primary:hover{background-position:100% 0; transform:translateY(-1px)}
+  .btn-primary:active{transform:translateY(0); filter:brightness(.98)}
+  .btn-primary:focus-visible{outline:none; box-shadow:0 0 0 4px rgba(14,165,233,0.35), 0 14px 34px rgba(124,58,237,0.55)}
+
+  .footer{
+    margin-top:24px; 
+    padding:20px 0 8px; 
+    color:var(--text-secondary); 
+    font-size:.95rem; 
+    text-align:center;
+    border-top:1px solid rgba(255,255,255,0.1);
+    position:relative;
+  }
+  .footer::before{
+    content:"";
+    position:absolute; top:0; left:50%; transform:translateX(-50%);
+    width:120px; height:1px;
+    background:linear-gradient(90deg, transparent, var(--primary), transparent);
+  }
+  .footer-brand{
+    font-weight:700; 
+    background:linear-gradient(90deg,var(--primary),var(--accent));
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+    display:inline-block;
+    animation: glow 3s ease-in-out infinite;
+  }
+  @keyframes glow{
+    0%, 100%{opacity:1}
+    50%{opacity:0.7}
+  }
+  .footer-tech{
+    margin-top:6px; font-size:0.8rem; opacity:0.6;
+  }
+
+  .progress-container{
+    display:none;
+    margin-top:20px;
+    padding:20px;
+    border-radius:12px;
+    background:rgba(124,58,237,0.1);
+    border:1px solid rgba(124,58,237,0.25);
+  }
+  .progress-container.active{display:block}
+  .progress-title{
+    font-weight:600; margin-bottom:12px;
+    color:var(--primary);
+  }
+  .progress-steps{
+    display:flex; flex-direction:column; gap:8px;
+  }
+  .progress-step{
+    display:flex; align-items:center; gap:10px;
+    padding:10px 14px;
+    border-radius:8px;
+    background:rgba(255,255,255,0.04);
+    color:var(--text-secondary);
+    transition:all 0.3s ease;
+  }
+  .progress-step.active{
+    background:rgba(124,58,237,0.2);
+    color:var(--text-primary);
+    border-left:3px solid var(--primary);
+  }
+  .progress-step.complete{
+    color:rgba(16,185,129,0.9);
+  }
+  .step-icon{
+    width:20px; height:20px;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .spinner{
+    width:16px; height:16px;
+    border:2px solid var(--primary);
+    border-top-color:transparent;
+    border-radius:50%;
+    animation:spin 0.8s linear infinite;
+  }
+  @keyframes spin{
+    to{transform:rotate(360deg)}
+  }
+
+  @media(max-width:560px){
+    .container{padding:22px 18px; border-radius:16px}
+  }
+
+  @supports not (backdrop-filter: blur(1px)){
+    .container{background:rgba(20,20,40,0.82)}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{transition:none !important}
+    .spinner, .glow{animation:none !important}
+  }
+</style>
+</head>
+<body>
+  <div class="container" role="region" aria-labelledby="title">
+    <h1 id="title">JS Repo Obfuscator</h1>
+    <p class="subtitle">Securely mirror and obfuscate a GitHub repository.</p>
+    <form action="/obfuscate" method="POST">
+      <div class="form-grid">
+        <div class="field">
+          <label for="sourceRepo">Source GitHub Repo URL</label>
+          <input class="input" id="sourceRepo" name="sourceRepo" type="url" inputmode="url" autocomplete="url" placeholder="https://github.com/user/source" required>
+        </div>
+
+        <div class="field">
+          <label for="destRepo">Destination GitHub Repo URL</label>
+          <input class="input" id="destRepo" name="destRepo" type="url" inputmode="url" autocomplete="url" placeholder="https://github.com/user/dest" required>
+        </div>
+
+        <div class="field">
+          <label for="token">GitHub Personal Access Token</label>
+          <input class="input" id="token" name="token" type="password" placeholder="ghp_xxxxxxx" autocomplete="off" spellcheck="false" required aria-describedby="tokenHelp">
+          <small id="tokenHelp" class="hint">Used only for this request and never logged.</small>
+        </div>
+
+        <div class="field">
+          <label for="gitUser">Git Commit Username</label>
+          <input class="input" id="gitUser" name="gitUser" type="text" placeholder="Your Git username" autocomplete="username" required>
+        </div>
+
+        <div class="field">
+          <label for="gitEmail">Git Commit Email</label>
+          <input class="input" id="gitEmail" name="gitEmail" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com" required>
+        </div>
+      </div>
+
+      <button type="submit" class="btn-primary" id="submitBtn">Obfuscate & Push</button>
+    </form>
+
+    <div class="progress-container" id="progressContainer">
+      <div class="progress-title">😵 Obfuscation Progress</div>
+      <div class="progress-steps" id="progressSteps"></div>
+    </div>
+
+    <div class="footer">
+      <div class="footer-brand">WATSON-XD DEV</div>
+      <div class="footer-tech">⚡ POWERED BY WATSON-XD TEAM · SECURED WITH 💚</div>
+    </div>
+  </div>
+
+  <script>
+    const form = document.querySelector('form');
+    const submitBtn = document.getElementById('submitBtn');
+    const progressContainer = document.getElementById('progressContainer');
+    const progressSteps = document.getElementById('progressSteps');
+
+    // LocalStorage keys
+    const STORAGE_KEY = 'obfuscator_form_data';
+
+    // Load saved data on page load
+    window.addEventListener('DOMContentLoaded', () => {
+      const savedData = localStorage.getItem(STORAGE_KEY);
+      if (savedData) {
+        try {
+          const formData = JSON.parse(savedData);
+          document.getElementById('sourceRepo').value = formData.sourceRepo || '';
+          document.getElementById('destRepo').value = formData.destRepo || '';
+          document.getElementById('token').value = formData.token || '';
+          document.getElementById('gitUser').value = formData.gitUser || '';
+          document.getElementById('gitEmail').value = formData.gitEmail || '';
+        } catch (e) {
+          console.error('Error loading saved data:', e);
+        }
+      }
+    });
+
+    // Save form data to localStorage whenever inputs change
+    const inputs = form.querySelectorAll('input');
+    inputs.forEach(input => {
+      input.addEventListener('input', () => {
+        const formData = {
+          sourceRepo: document.getElementById('sourceRepo').value,
+          destRepo: document.getElementById('destRepo').value,
+          token: document.getElementById('token').value,
+          gitUser: document.getElementById('gitUser').value,
+          gitEmail: document.getElementById('gitEmail').value
+        };
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
+      });
+    });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const formData = new FormData(form);
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Processing...';
+      progressContainer.classList.add('active');
+      progressSteps.innerHTML = '';
+
+      // Simulate progress steps for better UX
+      const progressMessages = [
+        { message: '👾 Initializing obfuscation process...', delay: 200 },
+        { message: '📥 Cloning source repository...', delay: 1500 },
+        { message: '🔃 Analyzing JavaScript files...', delay: 2000 },
+        { message: '🖥 Applying obfuscation transformations...', delay: 3000 },
+        { message: '📝 Committing obfuscated code...', delay: 1000 },
+        { message: '⤵️ Pushing to destination repository...', delay: 1500 }
+      ];
+
+      let currentStep = 0;
+      
+      const showNextStep = () => {
+        if (currentStep < progressMessages.length) {
+          addProgressStep(progressMessages[currentStep].message, 'active');
+          currentStep++;
+        }
+      };
+
+      // Show first step immediately
+      showNextStep();
+
+      // Submit the form
+      try {
+        const progressInterval = setInterval(() => {
+          if (currentStep < progressMessages.length) {
+            showNextStep();
+          }
+        }, 2000);
+
+        const response = await fetch('/obfuscate', {
+          method: 'POST',
+          body: new URLSearchParams(formData)
+        });
+        
+        const result = await response.json();
+        clearInterval(progressInterval);
+        
+        if (result.success) {
+          addProgressStep('✅ Done! Obfuscated files pushed to destination repo.', 'complete');
+          submitBtn.textContent = '✅ Done!';
+          setTimeout(() => {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Obfuscate & Push';
+            progressContainer.classList.remove('active');
+          }, 3000);
+        } else {
+          addProgressStep('❌ Error: ' + result.message, 'error');
+          submitBtn.disabled = false;
+          submitBtn.textContent = '❌ Error';
+          setTimeout(() => {
+            submitBtn.textContent = 'Obfuscate & Push';
+          }, 3000);
+        }
+        
+      } catch (err) {
+        console.error(err);
+        addProgressStep('❌ Error: ' + err.message, 'error');
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Obfuscate & Push';
+      }
+    });
+
+    function addProgressStep(message, status = 'active') {
+      const step = document.createElement('div');
+      step.className = 'progress-step';
+      
+      if (status === 'complete') step.classList.add('complete');
+      if (status === 'active') step.classList.add('active');
+      
+      const icon = document.createElement('div');
+      icon.className = 'step-icon';
+      
+      if (status === 'active') {
+        icon.innerHTML = '<div class="spinner"></div>';
+      } else if (status === 'complete') {
+        icon.textContent = '✓';
+      } else if (status === 'error') {
+        icon.textContent = '✗';
+        step.style.color = 'rgba(239,68,68,0.9)';
+      }
+      
+      const text = document.createElement('span');
+      text.textContent = message;
+      
+      step.appendChild(icon);
+      step.appendChild(text);
+      progressSteps.appendChild(step);
+      
+      // Mark previous steps as complete
+      const allSteps = progressSteps.querySelectorAll('.progress-step');
+      allSteps.forEach((s, i) => {
+        if (i < allSteps.length - 1) {
+          s.classList.remove('active');
+          s.classList.add('complete');
+          s.querySelector('.step-icon').innerHTML = '✓';
+        }
+      });
+    }
+  </script>
+</body>
+</html>
